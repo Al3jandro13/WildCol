@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-base: #0a1628;
+  --color-surface: #1e2d3d;
+  --color-surface-2: #253447;
+  --color-text: #f0f4f8;
+  --color-text-muted: rgba(240,244,248,0.5);
+  --color-accent: #4fc3f7;
+  --color-accent-dim: rgba(79,195,247,0.15);
+  --color-accent-border: rgba(79,195,247,0.3);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: #0a1628;
+  color: #f0f4f8;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scroll snap for horizontal timelines */
+.snap-x { scroll-snap-type: x mandatory; }
+.snap-start { scroll-snap-align: start; }
+
+/* Hide scrollbars but keep scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Entry animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes collapseNode {
+  0%   { opacity: 1; filter: saturate(1); }
+  50%  { opacity: 0.4; filter: saturate(0.2) brightness(0.6); }
+  100% { opacity: 0.2; filter: saturate(0) brightness(0.4); }
+}
+@keyframes breakLine {
+  0%   { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 100; opacity: 0.15; }
+}
+@keyframes pulse-accent {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79,195,247,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(79,195,247,0); }
+}
+@keyframes counter-tick {
+  from { transform: translateY(-4px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-up { animation: fadeUp 0.5s ease forwards; }
+.animate-fade-in { animation: fadeIn 0.4s ease forwards; }
+.animate-slide-up { animation: slideUp 0.45s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-pulse-accent { animation: pulse-accent 2s infinite; }
+
+/* Stagger helpers */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Panel slide up */
+.panel-enter {
+  animation: slideUp 0.45s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* Touch targets */
+button { touch-action: manipulation; cursor: pointer; }
+
+/* SVG map departments */
+.dept-path {
+  transition: fill 0.25s ease, opacity 0.25s ease;
+  cursor: pointer;
+  stroke: #0a1628;
+  stroke-width: 0.8;
+}
+.dept-path:hover, .dept-path:active { opacity: 0.85; }
+.dept-path.active { stroke: #4fc3f7; stroke-width: 1.5; }
+
+/* Simulator node */
+.eco-node {
+  transition: all 0.4s ease;
+}
+.eco-node.collapsed {
+  animation: collapseNode 0.6s ease forwards;
+}
+.eco-link {
+  transition: all 0.5s ease;
+  stroke-dasharray: 6 3;
+}
+.eco-link.broken {
+  animation: breakLine 0.7s ease forwards;
+}
+
+/* Leaflet map overrides */
+.leaflet-container {
+  background: #0a1628 !important;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1 !important;
+}
+/* Remove default marker shadow / icon artifacts */
+.leaflet-marker-icon,
+.leaflet-marker-shadow { border: none !important; background: none !important; }
+
+/* Conservation badge colors */
+.badge-lc  { background: rgba(79,195,247,0.15); color: #4fc3f7; border-color: rgba(79,195,247,0.3); }
+.badge-nt  { background: rgba(100,160,200,0.15); color: #80cbc4; border-color: rgba(100,200,180,0.3); }
+.badge-vu  { background: rgba(150,140,100,0.15); color: #b0bec5; border-color: rgba(150,150,100,0.3); }
+.badge-en  { background: rgba(180,120,80,0.12); color: #90a4ae; border-color: rgba(180,120,80,0.3); }
+.badge-cr  { background: rgba(200,80,80,0.12); color: #ef9a9a; border-color: rgba(200,80,80,0.25); }
